@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Branding - Rizki Ika Suci Fauziah</title>
+    <style>
+        /* ==========================================================================
+           CSS RESET & VARIABLES (Elegant & Modern Minimalist)
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --bg-color: #f4efea;      
+            --text-main: #2b2523;     
+            --accent-color: #a89482;  
+            --card-bg: #ffffff;
+            /* New Theme Color for Books (Lynk Teal Blue) */
+            --book-theme: #008080; 
+            --font-serif: 'Playfair Display', 'Times New Roman', serif;
+            --font-sans: 'Montserrat', 'Arial', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Attractive Moving Background (Interactive Canvas Particles) */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navigation Bar with Transparent Blur Effect */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(244, 239, 234, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(168, 148, 130, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            float: left;
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            float: right;
+            list-style: none;
+            margin-top: 5px;
+        }
+
+        .nav-links li {
+            display: inline-block;
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        /* ==========================================================================
+           LAYOUT & ANIMATED SECTIONS
+           ========================================================================== */
+        section {
+            padding: 120px 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero / Cover Section */
+        #hero {
+            padding-top: 200px;
+            padding-bottom: 120px;
+        }
+
+        .hero-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hero-text {
+            width: 55%;
+            vertical-align: middle;
+            padding-right: 40px;
+        }
+
+        .hero-image-area {
+            width: 45%;
+            vertical-align: middle;
+            text-align: right;
+        }
+
+        .hero-tag {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3.2rem;
+            line-height: 1.2;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 35px;
+            font-style: italic;
+            border-left: 2px solid var(--accent-color);
+            padding-left: 15px;
+        }
+
+        /* Button with Slide Hover Effect */
+        .btn {
+            display: inline-block;
+            padding: 14px 35px;
+            background-color: var(--text-main);
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--accent-color);
+            z-index: -1;
+            transition: all 0.3s;
+        }
+
+        .btn:hover::after {
+            height: 100%;
+        }
+
+        /* Aesthetic Photo Preview Box */
+        .avatar-box {
+            width: 100%;
+            height: 480px;
+            background-color: var(--accent-color);
+            display: inline-block;
+            position: relative;
+            box-shadow: 25px 25px 0px rgba(43, 37, 35, 0.04);
+            transition: transform 0.5s ease;
+        }
+
+        .avatar-box:hover {
+            transform: scale(1.02);
+        }
+
+        .avatar-placeholder {
+            position: absolute;
+            bottom: 35px;
+            left: 35px;
+            color: #fff;
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            text-align: left;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background-color: var(--accent-color);
+            margin: 15px auto 0;
+        }
+
+        /* Grid Cards with Attractive Hover Effect */
+        .grid-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 20px;
+        }
+
+        .grid-cell {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border: 1px solid rgba(168, 148, 130, 0.15);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+        }
+
+        .grid-cell:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(43, 37, 35, 0.06);
+            border-color: var(--text-main);
+        }
+
+        .card-icon {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .grid-cell:hover .card-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .card-link {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* ==========================================================================
+           NEW: Custom Style for Book / Publication Section (Teal Lynk Cover)
+           ========================================================================== */
+        .book-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 128, 128, 0.15); /* Thin Teal border */
+            padding: 50px;
+            transition: all 0.3s ease;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .book-container:hover {
+            box-shadow: 0 15px 40px rgba(0,128,128,0.08);
+            border-color: rgba(0, 128, 128, 0.3);
+        }
+        
+        /* Teal Lynk Book Cover Mockup */
+        .book-cover-mockup {
+            width: 100%;
+            height: 380px;
+            background: linear-gradient(135deg, #009696 0%, #006666 100%); /* Teal Lynk Gradient */
+            border-left: 12px solid #004d4d; /* Dark book spine */
+            position: relative;
+            box-shadow: 8px 12px 25px rgba(0,0,0,0.15);
+            color: #fff;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .book-title-inner {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.6rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .book-author-inner {
+            font-family: var(--font-serif);
+            font-size: 0.85rem;
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: auto;
+        }
+
+        /* Checklist Styling */
+        .book-checklist {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        .book-checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .book-checklist li::before {
+            content: '✔'; /* Checkmark */
+            position: absolute;
+            left: 0;
+            color: var(--book-theme); /* Teal Checkmark */
+            font-weight: bold;
+        }
+
+        /* Teal Buy Button */
+        .btn-book {
+            background-color: var(--book-theme);
+        }
+        .btn-book::after {
+            background-color: #006666;
+        }
+
+        /* ==========================================================================
+           SKILLS, EXPERIENCE, VISION, CONTACT
+           ========================================================================== */
+        .skills-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skill-item {
+            margin-bottom: 25px;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-bar-bg {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(168, 148, 130, 0.2);
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background-color: var(--text-main);
+            width: 0;
+            transition: width 1.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .timeline-box {
+            border-left: 1px solid var(--accent-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 30px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 9px;
+            height: 9px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--text-main);
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .timeline-item:hover::before {
+            background-color: var(--accent-color);
+        }
+
+        .time-period {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .vision-box {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(168, 148, 130, 0.15);
+            padding: 50px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.01);
+        }
+
+        .testimonial-text {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-style: italic;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #444;
+        }
+
+        .contact-layout {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid rgba(168, 148, 130, 0.15);
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.02);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fafafa;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--text-main);
+            background-color: #fff;
+        }
+
+        /* ==========================================================================
+           INTERACTIVE MODAL BOX
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(43, 37, 35, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 550px;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        footer {
+            background-color: var(--text-main);
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">RIZKI IKA</div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Works</a></li>
+                <li><a href="#books">Books</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </nav>
+
+    <section id="hero" class="visible">
+        <table class="hero-table">
+            <tr>
+                <td class="hero-text">
+                    <span class="hero-tag">Entrepreneur & Creative Brand Developer</span>
+                    <h1>Rizki Ika Suci Fauziah</h1>
+                    <p class="hero-desc">“Building elegant brands with innovation.”</p>
+                    <a href="#contact" class="btn">Start Collaboration</a>
+                </td>
+                <td class="hero-image-area">
+                    <div class="avatar-box">
+                        <div class="avatar-placeholder">
+                            Professional /<br>Aesthetic Photo
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div style="font-size: 1.1rem; color: #444; max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.8;">
+            <p>I am a student and young entrepreneur from Indonesia who is passionate about business, branding, perfumery, and creative development. I believe that innovation and a strong brand identity can create a massive impact on the future.</p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Core Expertise</h2>
+        <div class="skills-container">
+            <div class="skill-item">
+                <div class="skill-info"><span>Branding & Product Design</span><span>95%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Public Speaking & Announcing</span><span>90%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Leadership & Team Management</span><span>88%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="88%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Digital Marketing & Media Strategy</span><span>85%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="85%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>English Proficiency</span><span>80%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80%"></div></div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-info"><span>Mandarin Chinese (Basic)</span><span>60%</span></div>
+                <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="60%"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline-box">
+            <div class="timeline-item">
+                <div class="time-period">2025 – Present</div>
+                <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:400; margin-bottom:5px;">Head of Branding — Kai Parfume</h3>
+                <p style="color:#666; font-size:0.95rem;">Developing premium perfume brand concepts in Indonesia, formulating marketing strategies, and nurturing the brand's visual identity.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="time-period">2024 – 2025</div>
+                <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:400; margin-bottom:5px;">Media Reporter & Broadcaster</h3>
+                <p style="color:#666; font-size:0.95rem;">Actively structured coverage narratives, conducted live interviews, and hosted commercial audio broadcast programs.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title">Featured Projects & Works</h2>
+        <table class="grid-table">
+            <tr>
+                <td class="grid-cell" style="width: 50%;" onclick="openModal('kaiparfume')">
+                    <div class="card-icon">✨</div>
+                    <h3 class="card-title">Kai Parfume</h3>
+                    <p class="card-desc">A premium local perfume line focusing on unique exclusive scents and high-class visual identity.</p>
+                    <span class="card-link">Strategy Details &rarr;</span>
+                </td>
+                <td class="grid-cell" style="width: 50%;" onclick="openModal('kaivalor')">
+                    <div class="card-icon">⚜️</div>
+                    <h3 class="card-title">KaiValor</h3>
+                    <p class="card-desc">Innovative packaging concept development, modern marketing strategy, and high-end product mockup realization.</p>
+                    <span class="card-link">Design Details &rarr;</span>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="books">
+        <h2 class="section-title">Books & Publications</h2>
+        <div class="book-container">
+            <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                    <td style="width:35%; padding-right:40px; vertical-align:top;">
+                        <div class="book-cover-mockup" style="background: none; border: none; box-shadow: none; padding: 0; height: auto;">
+                            <img src="c:\Users\RIZKI IKA S F\Downloads\portofolio\tips_trik_matematika.PNG.png" alt="Tips & Trik Matematika - Rizki Ika">
+                        </div>
+                    </td>
+                    <td style="width:65%; vertical-align:middle;">
+                        <span style="font-size:0.8rem; font-weight:bold; color:var(--book-theme); letter-spacing:2px; text-transform:uppercase;">Achievement E-Book</span>
+                        <h3 style="font-family:var(--font-sans); font-size:1.7rem; margin:10px 0 20px; font-weight:700; color:var(--book-theme);">Tips & Tricks of Mathematics</h3>
+                        
+                        <p style="color:#333; font-size:1rem; margin-bottom:20px; line-height:1.7; font-weight:500;">
+                            Boost your math skills with proven effective methods. This book is specifically designed to help students grasp concepts quickly through practical and systematic approaches.
+                        </p>
+                        <ul class="book-checklist">
+                            <li>Fast & efficient tricks</li>
+                            <li>Concise & memorable formulas</li>
+                            <li>Clear step-by-step problem solving</li>
+                            <li>Suitable for Middle School, High School, and General Public</li>
+                        </ul>
+                        <p style="font-size:0.95rem; color:#555; font-style:italic; margin-bottom:30px;">
+                            The best investment for your academic future. Learn smarter.
+                        </p>
+                        
+                        <a href="http://lynk.id/auzyaescha/wjdvj9pde9j9/checkout" target="_blank" class="btn btn-book">Buy via Lynk.id</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <h2 class="section-title">Appreciation & Testimonials</h2>
+        <div>
+            <p class="testimonial-text">“Possesses excellent leadership skills and brilliant branding creativity.”</p>
+            <p style="text-align:center; margin-top:10px; font-size:0.85rem; color:var(--accent-color); text-transform:uppercase; letter-spacing:1px;">— Partner & Professional Review</p>
+        </div>
+    </section>
+
+    <section id="vision">
+        <h2 class="section-title">Vision & Future Goals</h2>
+        <div class="vision-box">
+            <p style="font-size: 1.15rem; color: #333; line-height: 1.8; font-style: italic;">
+                "My goal is to build Indonesian brands that can compete internationally through innovation, creativity, and premium quality."
+            </p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Connect & Collaborate</h2>
+        <div class="contact-layout">
+            
+            <form action="https://formspree.io/f/mlgvpqzb" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="Name" class="form-control" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Your Email Address</label>
+                    <input type="email" name="_replyto" class="form-control" required placeholder="name@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Message / Collaboration Plan</label>
+                    <textarea name="Pesan" class="form-control" rows="4" required placeholder="Write your message or business collaboration plan here..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn" style="width:100%;">Send Message to Rizki's Gmail</button>
+            </form>
+            
+            <div style="margin-top: 40px; text-align: center; font-size: 0.9rem; color: #666;">
+                <p>Instagram: @rizkiika_ | LinkedIn: Rizki Ika Suci Fauziah</p>
+                <p style="margin-top: 5px; color: var(--accent-color); font-weight: bold;">Direct Inbox: riskiika2025@gmail.com</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 RIZKI IKA SUCI FAUZIAH. All Rights Reserved. Clean, Minimalist & Active Personal Branding.
+    </footer>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 class="modal-title" id="modalTitle">Title</h3>
+            <div class="modal-content-text" id="modalContent">Content...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. CANVAS BACKGROUND SCRIPT (Interactive Particles Following Cursor) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 100 };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * 0.2 - 0.1;
+                this.alpha = Math.random() * 0.4 + 0.1;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+
+                if (mouse.x != null && mouse.y != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.hypot(dx, dy);
+                    if (distance < mouse.radius) {
+                        let force = (mouse.radius - distance) / mouse.radius;
+                        this.x -= (dx / distance) * force * 2;
+                        this.y -= (dy / distance) * force * 2;
+                    }
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(168, 148, 130, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
+        }
+        initParticles();
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 2. SCROLL ANIMATION TRACKER ---
+        const sections = document.querySelectorAll('section');
+        const observerOptions = { root: null, threshold: 0.1 };
+
+        const sectionObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if(entry.target.id === 'skills') {
+                        const bars = entry.target.querySelectorAll('.skill-bar-fill');
+                        bars.forEach(bar => bar.style.width = bar.getAttribute('data-width'));
+                    }
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => { sectionObserver.observe(section); });
+
+        // --- 3. MODALS DATABASE ---
+        const modalData = {
+            kaiparfume: {
+                title: "Kai Parfume — Premium Brand Development",
+                content: "A business development project for Indonesian luxury fragrance. It includes establishing core brand identity, curation of exclusive scent profiles, emotional brand storytelling, and strategic pricing placement in the premium fragrance market."
+            },
+            kaivalor: {
+                title: "KaiValor — Packaging & Product Strategy",
+                content: "Focused on creating ergonomic physical packaging with prestigious visual value. Involved bottle structure formulation, embossed logo aesthetics, integrated digital campaigns, and the assembly of a commercial-ready product prototype proposal."
+            }
+        };
+
+        function openModal(key) {
+            const data = modalData[key];
+            if(data) {
+                document.getElementById('modalTitle').innerText = data.title;
+                document.getElementById('modalContent').innerHTML = data.content;
+                document.getElementById('modalOverlay').classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
